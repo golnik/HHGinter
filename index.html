@@ -3,84 +3,67 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>High Harmonic Generation</title>
+  <title>HHG model</title>
   <!-- plot.ly -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"> 
 
   <link rel="stylesheet" href="style.css"/> 
   <script src="script.js"></script>
 </head>
-<body onload= "graph(t_text.value, w_text.value)">
+<body onload= "graph(t_text.value, 1)">
   <div class="top-menu">
     <div class="timeline">
-      <input type="range" min="0" max="9.425" value="0" step =".001" class="slider" name ="t_slider" id="t_slider" oninput="graph(this.value, w_text.value)">
+      <div class="expanded button-group">
+        <a class="button" onclick="ionize(t_text.value, 1.0)">Ionize</a>
+        <a class="button" onclick="cleargraphs()">Clear</a>
+        <a class="button" onclick="multi()">Multiple Trajectories</a>
+        <a class="button" onclick="toggleHelp()">Help</a>
+      </div>
+      <div class="time_input">
+        <input type="text" class="numbersonly" name="t_text" id="t_text" maxlength="20" value="0" oninput="graph(this.value, 1.0)"> <br>
+        <input type="range" min="0" max="9.425" value="0" step =".001" class="slider" name ="t_slider" id="t_slider" oninput="graph(this.value, 1.0)">
+      </div>  
       <div class="timegraph" id="timegraph"></div>
     </div>
-    <div class = "inputs">
-      <div class="time-input">
-        <p id="t_label">0</p>
-        <input type="text" class="numbersonly" name="t_text" id="t_text" maxlength="20" value="0" oninput="graph(this.value, w_text.value)"> <br>
-      </div>
-      <div class="frequency" id="frequency">
-        <p id="w_label">0</p>
-        <input type="text" class="numbersonly" name="w_text" id= "w_text" maxlength="20" value="1" min="1" max="10" onchange="graph(t_text.value, this.value)">
-        <div class="gas" id="gas">Element:
-          <input type="radio" id="Helium" name="element" value="He" checked oninput="graph(t_text.value, w_text.value)">
-          <label for="Helium">He</label>
-          <input type="radio" id="Neon" name="element" value="Ne" oninput="graph(t_text.value, w_text.value)">
-          <label for="Neon">Ne</label>
-          <input type="radio" id="Argon" name="element" value="Ar" oninput="graph(t_text.value, w_text.value)">
-          <label for="Argon">Ar</label>
-        </div>
-      </div><!-- frequency box-->
-    </div>
-    <div class="buttons">
-      <button id="ionization_button" class="ionization_button" type="button" onclick="ionize(t_text.value, w_text.value)">Ionize</button>
-      <button id="clear_button" class="clear_button" type="button" onclick="cleargraphs()">Clear</button>
-      <button id="mul_traj_button" class="mul_traj_button" type="button" onclick="">Multiple Trajectories</button>
-      <button id="help_button" class="help_button" type="button" onclick="toggleHelp()">Help</button>
-    </div>
-    <div id="statistics" class="statistics">Data:
+    <div id="statistics" class="statistics">
+      <p align="center">Data:</p>
       <p id="ionization_time"> </p>
       <p id="recombination"></p>
       <p id="recombination_time"></p>
       <p id="trajectory"></p>
     </div>
-    <div id="legendContainer" class="legendContainer"></div>
+    <div id="legendContainer" class="legend">
+      <p align="center">Legend:</p>
+    </div>
   </div> <!-- top menu-->
   <div class="graphs">
     <div class="field" id="field"></div>
-    <div class="potential" id="potential">_</div>
+    <div class="potential" id="potential"></div>
     <div class="energy" id="energy"></div>
     <div class="displacement" id="displacement"></div>
     <div class="phase1" id="phase1"></div>
     <div class="recom-ion" id="recom-ion"></div>
     <div class="velocity" id="velocity"></div>
     <div class="phase2" id="phase2"></div>
-    <div class="help" id="help">
-      <h1>Help</h1>
-      <p>Welcome to the High Harmonic Generation Learning Tool!</p>
-      <p>Developed by Kristy Hudgins, Anand Hari Natarajan, and Nikolay Golubev.</p>
-      <p>***Please follow the instructions below to start using the learning tool!***</p>
-      <p>1. Use the phase slider to manually set phase value or input it in the phase window.</p>
-      <p>2. Click the "Ionize" button to start the simulation for the ionization phase you set!</p>
-      <p>3. Move the phase slider to look at the electron trajectories.</p>
-      <p>4. Click the "Ionize" button repeatedly to produce multiple trajectories and compare them.</p>
-      <p>5. Use the "Clear" button to clear the graphs.</p>
-      <p>6. Use the "Multiple Trajectories" button to generate a set of trajectories for various preset ionization phases.</p>
-      <p>6. The "Data" box tells the important information regarding the trajectories.</p>
-
-    </div>
   </div>
 
   <script>
     function toggleHelp() {
-      const helpBox = document.getElementById('help');
-      if (helpBox.style.display === 'none' || helpBox.style.display === '') {
-        helpBox.style.display = 'block';
-      } else {
-        helpBox.style.display = 'none';
-      }
+      var message =
+'Welcome to the High Harmonic Generation Learning Tool!\n\n\
+***Please follow the instructions below***\n\n\
+1. Use the phase slider to manually set phase value or input it in the phase window.\n\
+2. Click the "Ionize" button to start the simulation for the ionization phase you set.\n\
+3. Move the phase slider to look at the electron trajectories.\n\
+4. Click the "Ionize" button repeatedly to produce multiple trajectories and compare them.\n\
+5. Use the "Clear" button to clear the graphs.\n\
+6. Use the "Multiple Trajectories" button to generate a set of trajectories for various preset ionization phases.\n\
+7. The "Data" box tells the important information regarding the trajectories.\n\n\
+Developers: Kristy Hudgins, Anand Hari Natarajan, and Nikolay Golubev.';
+
+      alert(message);
     }
   </script>
 

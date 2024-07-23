@@ -3,6 +3,20 @@ var traceCounter = 0; // Counter for the number of traces
 var colors = {}; // Object to store colors for each trace
 var ionizationTimes = []; // Array to store ionization times
 
+var global_margin = {
+  l: 55,
+  r: 15,
+  b: 45,
+  t: 45,
+  pad: 10
+}
+
+var global_font = {
+  family: '"Open Sans", verdana, arial, sans-serif',
+  size: 10,
+  color: '#444'
+}
+
 // Define a list of default colors (based on Plotly's default color palette)
 var presetColors = [
   "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", 
@@ -49,10 +63,10 @@ function graph(t, w){
   // update slider and text inputs
   document.getElementById("t_text").value = t;
   document.getElementById("t_slider").value = t;
-  document.getElementById("w_text").value = w;
+  //document.getElementById("w_text").value = w;
 
-  t_label.textContent = "Phase: " + t;
-  w_label.textContent = "Frequency (\u03c9): " + w;
+  //t_label.textContent = "Phase: " + t;
+  //w_label.textContent = "Frequency (\u03c9): " + w;
 
   // create left + right sides of graph
   for (let x = -3; x <= 0; x += .001){
@@ -114,7 +128,9 @@ function graph(t, w){
     yaxis: {
       title: 'Energy', //(eV)', //check units
       range: [-30, 25]},
-    showlegend: false
+    showlegend: false,
+    font: global_font,
+    margin: global_margin
   };
 
   var Laserlayout = {
@@ -125,7 +141,9 @@ function graph(t, w){
     yaxis: {
       title: 'Electric Field',
       range: [-1.1, 1.1]},
-    showlegend: false
+    showlegend: false,
+    font: global_font,
+    margin: global_margin
   }; 
 
   // placeholder values for electron
@@ -192,7 +210,9 @@ function graph(t, w){
     yaxis: {
       title: 'Displacement', //(\u212B)',
       range: [-3, 3]},
-    showlegend: false
+    showlegend: false,
+    font: global_font,
+    margin: global_margin
   }
 
     var Vellayout = {
@@ -203,7 +223,9 @@ function graph(t, w){
         yaxis: {
           title: 'Velocity', //(\u212B/s)',
           range: [-3, 3]},
-        showlegend: false
+        showlegend: false,
+        font: global_font,
+        margin: global_margin
     }
 
     var Phase1layout = {
@@ -216,7 +238,9 @@ function graph(t, w){
         title: 'Velocity',
         range: [-3.5, 3.5]
       },  
-      showlegend: false
+      showlegend: false,
+      font: global_font,
+      margin: global_margin
     };
 
     var Phase2layout = {
@@ -229,7 +253,9 @@ function graph(t, w){
         title: 'Kinetic Energy',
         range: [-3.5, 3.5]
       },  
-      showlegend: false
+      showlegend: false,
+      font: global_font,
+      margin: global_margin
     };
   
   if (firsttime != false) {
@@ -254,14 +280,18 @@ function graph(t, w){
       title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
       xaxis: { title: 'Phase (θ)', range: [0, 2 * Math.PI] },
       yaxis: { title: 'Recombination KE', range: [0, 3.5] },
-      showlegend: false
+      showlegend: false,
+      font: global_font,
+      margin: global_margin
     };
 
     var emptyLayoutRecombination = {
       title: 'Recombination Phase as a Function of Ionization Phase',
       xaxis: { title: 'Ionization Phase (θ\u1D62)', range: [0, 0.5 * Math.PI]},
       yaxis: { title: 'Recombination Phase (θ\u1D63)', range: [0.5 * Math.PI, 2 * Math.PI] },
-      showlegend: false
+      showlegend: false,
+      font: global_font,
+      margin: global_margin
     };
 
     Plotly.newPlot('energy', emptyData, emptyLayoutEnergy, { displayModeBar: false, responsive: true });
@@ -332,7 +362,15 @@ function timeline(t0, t){
   };
 
   var data = [before, during, after];
-  var layout = {barmode: "stack", xaxis: {showticklabels: false}, showlegend: true, legend: {"orientation": "h", "traceorder": "normal"}, margin: {b: 0, l: 5, r: 0, t: 0, pad: 0}}
+  var layout = {
+    barmode: "stack",
+    xaxis: {showticklabels: false},
+    showlegend: true,
+    legend: {"orientation": "h", "traceorder": "normal"},
+    margin: {b: 0, l: 20, r: 0, t: 0, pad: 0},
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
 
   Plotly.newPlot('timegraph', data, layout, {displayModeBar: false, responsive: true});
 }
@@ -449,6 +487,18 @@ function ionize(t0, w){
   }  
 }
 
+function multi(){
+  var w = 1.0;
+  var phi = 0.0;
+  var N = 15;
+  var dphi = 2. * Math.PI / (N - 1);
+
+  for(let i=0; i<N;i++){
+    ionize(phi,w);
+    phi += dphi;
+  }
+}
+
 // creates moving timebar for "smaller" graphs (not laser field/ potential energy)
 
 function new_trace(t, w){
@@ -523,7 +573,9 @@ function graph_supp(theta_r_dict, energy_dict) {
     title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
     xaxis: { title: 'Phase (θ)', range: [0, 2 * Math.PI] },
     yaxis: { title: 'Recombination KE', range: [0, 3.5] },
-    showlegend: false
+    showlegend: false,
+    font: global_font,
+    margin: global_margin
   };
 
   // Plot the kinetic energy data
@@ -546,13 +598,15 @@ function graph_supp(theta_r_dict, energy_dict) {
     title: 'Recombination Phase as a Function of Ionization Phase',
     xaxis: { title: 'Ionization Phase (θ\u1D62)', range: [0, 0.5 * Math.PI]},
     yaxis: { title: 'Recombination Phase (θ\u1D63)', range: [0.5 * Math.PI, 2 * Math.PI] },
-    showlegend: false
+    showlegend: false,
+    font: global_font,
+    margin: global_margin
   };
 
   // Plot the recombination time data
   Plotly.newPlot('recom-ion', recombinationData, recombinationLayout, { displayModeBar: false, responsive: true });
 
-  const w = Number(document.getElementById("w_text").value);
+  const w = 1.0; //Number(document.getElementById("w_text").value);
 
   // Add vertical bars for ionization phase
   const ionizationTime = ionizationTimes[ionizationTimes.length - 1]; 
@@ -611,8 +665,8 @@ function graph_supp(theta_r_dict, energy_dict) {
 
 function updateLegend() {
   var legendContainer = document.getElementById('legendContainer');
-  legendContainer.innerHTML = '<div id="legendTitle">Legend</div>';
-  const w = Number(document.getElementById("w_text").value);
+  legendContainer.innerHTML = '<p align="center">Legend:</p>';
+  const w = 1.0; //Number(document.getElementById("w_text").value);
 
   for (var i = 0; i < traceCounter; i++) {
     var color = getColor(i);
@@ -645,8 +699,8 @@ function cleargraphs(){
 
   // Clear the legend
   var legendContainer = document.getElementById('legendContainer');
-  legendContainer.innerHTML = '<div id="legendTitle">Legend</div>';
-  legendContainer.style.display = 'none'; // Hide the legend box
+  legendContainer.innerHTML = '<p align="center">Legend:</p>';
+  //legendContainer.style.display = 'none'; // Hide the legend box
   
   // Clear the data
   /*document.getElementById("ionization_time").textContent = "";
@@ -654,7 +708,8 @@ function cleargraphs(){
   document.getElementById("recombination_time").textContent = "";
   document.getElementById("trajectory").textContent = ""; */
 
-  ionize(null, document.getElementById("w_text").value);
+  const w = 1.0; //Number(document.getElementById("w_text").value);
+  ionize(null, w);
 };
 
 
