@@ -658,8 +658,16 @@ function graph_supp(theta_r_dict, energy_dict) {
     name: `Ionization Time ${traceCounter}`
   };
 
+  const horizontalBarRecombination = {
+    x: [0, ionizationTime],
+    y: [theta_r_dict[theta_i_array[closest]], theta_r_dict[theta_i_array[closest]]],
+    mode: 'lines',
+    line: { color: traceColor, width: 2 },
+    name: `Ionization Time ${traceCounter}`
+  };
+
   Plotly.addTraces('energy', [verticalBarEnergyIon, verticalBarEnergyRec]);
-  Plotly.addTraces('recom-ion', verticalBarRecombination);
+  Plotly.addTraces('recom-ion', [verticalBarRecombination, horizontalBarRecombination]);
   
   //console.log(energy_dict[ionizationTime]);
   //console.log(Math.max(...energy_values));
