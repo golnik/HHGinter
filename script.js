@@ -94,10 +94,12 @@ function graph(t, w){
     "Ne": -21.57,
     "Ar": -15.76,
   };
+
   if (t < ionizet || ionizet == NaN || t > recomt){
     // position of electron in atom 
     xElectron = [0];
-    yElectron = [ionization_energy[document.querySelector("input[name='element']:checked").value]];
+    yElectron = [ionization_energy["He"]]; //document.querySelector("input[name='element']:checked").value]];
+    //console.log(yElectron);
   } else if (t == ionizet){
     xElectron = [0];
     yElectron = [0];
@@ -420,8 +422,15 @@ function energy(t, w) {
 
 // gets closest recombination time for user ionization time
 function ionize(t0, w){
+  
+  if (t0 === null) {
+    // Handle case when t0 is null (cleargraphs calls this with null)
+    graph(0, w);
+    return;
+  }
+
   var theta_0 = t0 * w;
-  var phase = theta_0 % Math.PI;
+  var rem = theta_0 % Math.PI;
 
   const theta = linspace(0, 2 * Math.PI, 1000);
   const theta_i_array = linspace(0, Math.PI / 2, 1000);
@@ -440,25 +449,25 @@ function ionize(t0, w){
   });
 
   // finds smallest difference between user input and theta_i values
-  smallestDiff = Math.abs(phase - theta_i_array[0]);
+  smallestDiff = Math.abs(rem - theta_i_array[0]);
   closest = 0;
 
   for (i=1; i < theta_i_array.length; i++){
-    currentDiff = Math.abs(phase - theta_i_array[i]);
+    currentDiff = Math.abs(rem - theta_i_array[i]);
     if (currentDiff < smallestDiff) {
       smallestDiff = currentDiff;
       closest = i;
     }
   }
+
   if (theta_0 > 2 * Math.PI){
     console.log("Please only ionize between 0 and 2\u03C0")
-  }
-  else {
-    if (phase > Math.PI / 2) {
+  } else {
+    if (rem > Math.PI / 2) {
       // no recombination
       recombination.textContent = "Recombination: \u274c";
       recombination_time.textContent = "Recombination Time: N/A";
-      document.getElementById("trajectory").textContext = "Trajectory: N/A";
+      document.getElementById("trajectory").textContent = "Trajectory: N/A";
       timeline(t0, (3 * Math.PI));
     } else {
       // update information with recombination 
@@ -466,12 +475,15 @@ function ionize(t0, w){
       if (theta_0 < Math.PI){
         recombination_time.textContent = "Recombination Time: " + theta_r_dict[theta_i_array[closest]] / w;
       } else {
-        recombination_time.textContent = "Recombination Time: " + (Math.PI + theta_r_dict[theta_i_array[closest]] / w);}
-        if (phase < Math.PI / 10){
-          trajectory.textContext = "Trajectory: Long";
-        } else {
-          trajectory.textContext = "Trajectory: Short";
-        }
+        recombination_time.textContent = "Recombination Time: " + (Math.PI + theta_r_dict[theta_i_array[closest]] / w);
+      }
+      if (rem < Math.PI / 10){
+        //console.log(rem);
+        trajectory.textContent = "Trajectory: Long";
+      } else {
+        //console.log(rem);
+        trajectory.textContent = "Trajectory: Short";
+      }
       timeline(t0, (theta_r_dict[theta_i_array[closest]] / w));
     }
     if(t0 == null){
@@ -485,18 +497,6 @@ function ionize(t0, w){
   graph(t0, w);
   graph_supp(theta_r_dict, energy_dict)
   }  
-}
-
-function multi(){
-  var w = 1.0;
-  var phi = 0.0;
-  var N = 15;
-  var dphi = 2. * Math.PI / (N - 1);
-
-  for(let i=0; i<N;i++){
-    ionize(phi,w);
-    phi += dphi;
-  }
 }
 
 // creates moving timebar for "smaller" graphs (not laser field/ potential energy)
@@ -578,8 +578,10 @@ function graph_supp(theta_r_dict, energy_dict) {
     margin: global_margin
   };
 
-  // Plot the kinetic energy data
-  Plotly.newPlot('energy', [energyDataThetaI, energyDataThetaR], energyLayout, { displayModeBar: false, responsive: true });
+  // Plot the kinetic energy data if not already plotted
+  if (traceCounter === 1) {
+    Plotly.newPlot('energy', [energyDataThetaI, energyDataThetaR], energyLayout, { displayModeBar: false, responsive: true });
+  }
  
  // Create the data for the recombination time plot
   const recombinationData = [
@@ -603,8 +605,10 @@ function graph_supp(theta_r_dict, energy_dict) {
     margin: global_margin
   };
 
-  // Plot the recombination time data
-  Plotly.newPlot('recom-ion', recombinationData, recombinationLayout, { displayModeBar: false, responsive: true });
+  // Plot the recombination time data if not already plotted
+  if (traceCounter === 1) {
+    Plotly.newPlot('recom-ion', recombinationData, recombinationLayout, { displayModeBar: false, responsive: true });
+  }
 
   const w = 1.0; //Number(document.getElementById("w_text").value);
 
@@ -635,7 +639,7 @@ function graph_supp(theta_r_dict, energy_dict) {
     y: [0, energy_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
-    name: 'Ionization Time'
+    name: `Ionization Time ${traceCounter}`
   };
 
   const verticalBarEnergyRec = {
@@ -643,7 +647,7 @@ function graph_supp(theta_r_dict, energy_dict) {
     y: [0, energy_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
-    name: 'Ionization Time'
+    name: `Ionization Time ${traceCounter}`
   };
 
   const verticalBarRecombination = {
@@ -651,7 +655,7 @@ function graph_supp(theta_r_dict, energy_dict) {
     y: [0.5 * Math.PI, theta_r_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
-    name: 'Ionization Time'
+    name: `Ionization Time ${traceCounter}`
   };
 
   Plotly.addTraces('energy', [verticalBarEnergyIon, verticalBarEnergyRec]);
@@ -703,18 +707,30 @@ function cleargraphs(){
   //legendContainer.style.display = 'none'; // Hide the legend box
   
   // Clear the data
-  /*document.getElementById("ionization_time").textContent = "";
+  document.getElementById("ionization_time").textContent = "";
   document.getElementById("recombination").textContent = "";
   document.getElementById("recombination_time").textContent = "";
-  document.getElementById("trajectory").textContent = ""; */
+  document.getElementById("trajectory").textContent = "";
 
   const w = 1.0; //Number(document.getElementById("w_text").value);
   ionize(null, w);
 };
 
-
-function help(){
-
+function multi(){
   
+  cleargraphs();
+  
+  var w = 1.0;
+  //var phi = 0.0;
+  //var N = 15;
+  //var dphi = 2. * Math.PI / (N - 1);
 
+  /*for(let i = 0; i < N; i++){
+    ionize(phi, w);
+    phi += dphi;
+  }*/
+
+  for(let x = 0; x <= 2 * (Math.PI)/w; x += 0.1 * Math.PI){
+    ionize(x, w);
+  }
 }
