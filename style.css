@@ -27,14 +27,19 @@ html, body {
   display: inline-block;
   display: flex;  
   width: 100%;
-  gap: 10px;  
+  gap: 0px;  
 }
 
-.numbersonly{
-  width: 15%;
+.numbersonly {
+  display: inline-block;
+  width: 10%;
+  margin-left: 0px;
+  margin-bottom: 0px;
 }
 
 .slider{
+  margin-left: 40px;
+  margin-right: 0px;
   display: inline-block;
   width: 100%;
 }
@@ -42,9 +47,11 @@ html, body {
 .timegraph{
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: calc(100% - 60px);
   height: 30%;
-  /*margin: 0px;*/
+  margin: auto;
+  margin-left: 50px;
+  padding: 0px;
 }
 
 .statistics, .legend{
@@ -104,3 +111,45 @@ html, body {
 
 .velocity { grid-area: 3 / 1 / 4 / 2; }
 .phase2 { grid-area: 3 / 2 / 4 / 3; }
+
+.graphs .field, .graphs .potential, .graphs .energy,
+.graphs .displacement, .graphs .phase1, .graphs .recom-ion,
+.graphs .velocity, .graphs .phase2 {
+  position: relative;
+  margin-right: 5px; /* Adjust as needed */
+}
+
+.plot-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.info-icon {
+  position: absolute;
+  top: 10%;
+  left: 97%;
+  
+  font-size: 20px; /* Increased font size for super large icons */
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  z-index: 1000; /* Ensure the icon is in front of other elements */
+}
+
+.info-icon:hover {
+  opacity: 1.0;
+}
+
+.info-window {
+  display: none;
+  position: absolute;
+  top: 10%; /* Adjust this value as needed */
+  left: 72%;
+  width: 300px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
