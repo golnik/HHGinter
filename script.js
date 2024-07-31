@@ -746,6 +746,14 @@ function graph_supp(theta_r_dict, energy_dict) {
   const traceColor = getColor(traceCounter); // Get the latest color
 
   const verticalBarEnergyIon = {
+    x: [ionizationTime, ionizationTime],
+    y: [0, energy_dict[theta_i_array[closest]]],
+    mode: 'lines',
+    line: { color: traceColor, width: 2 },
+    name: `Trace ${traceCounter} : Energy Vertical Rec`
+  };
+
+  const verticalBarEnergyRec = {
     x: [theta_r_dict[theta_i_array[closest]], theta_r_dict[theta_i_array[closest]]],
     y: [0, energy_dict[theta_i_array[closest]]],
     mode: 'lines',
@@ -753,13 +761,15 @@ function graph_supp(theta_r_dict, energy_dict) {
     name: `Trace ${traceCounter} : Energy Vertical Ion`
   };
 
-  const verticalBarEnergyRec = {
-    x: [ionizationTime, ionizationTime],
-    y: [0, energy_dict[theta_i_array[closest]]],
+  const horizontalBarEnergy = {
+    x: [ionizationTime, theta_r_dict[theta_i_array[closest]]],
+    y: [energy_dict[theta_i_array[closest]], energy_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
-    name: `Trace ${traceCounter} : Energy Vertical Rec`
+    line: { dash: "dot", color: traceColor },
+    name: `Trace ${traceCounter} : Energy Horizontal`
   };
+
 
   const verticalBarRecombination = {
     x: [ionizationTime, ionizationTime],
@@ -777,7 +787,7 @@ function graph_supp(theta_r_dict, energy_dict) {
     name: `Trace ${traceCounter} : Recombination Horizontal`
   };
 
-  Plotly.addTraces('energy', [verticalBarEnergyIon, verticalBarEnergyRec]);
+  Plotly.addTraces('energy', [verticalBarEnergyIon, verticalBarEnergyRec, horizontalBarEnergy]);
   Plotly.addTraces('recom-ion', [verticalBarRecombination, horizontalBarRecombination]);
 
   traceCounter++;
