@@ -586,7 +586,7 @@ function ionize(t0, w) {
   //console.log(theta_i_array[closest])
 
   if (theta_0 > 2 * Math.PI) {
-    console.log("Please only ionize between 0 and 2\u03C0")
+    warning.textContent = "Warning: Please only ionize between 0 and 2\u03C0!";
   } else {
     if (rem >= Math.PI / 2) {
       // no recombination
