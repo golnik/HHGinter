@@ -12,105 +12,108 @@
   <script src="script.js"></script>
 </head>
 <body onload="graph(0, 1)">
-  <div class="top-menu">
-    <div class="timeline">
-      <div class="expanded button-group">
-        <a class="button" onclick="ionize(t_text.value, 1.0)">Ionize</a>
-        <a class="button" onclick="cleargraphs()">Clear</a>
-        <a class="button" onclick="multi()">Multiple Trajectories</a>
-        <a class="button" onclick="toggleHelp()">Help</a>
+  <div class="webpage">
+    <div class="top-menu">
+      <div class="timeline">
+        <div class="expanded button-group">
+          <a class="button" onclick="ionize(t_text.value, 1.0)">Ionize</a>
+          <a class="button" onclick="cleargraphs()">Clear</a>
+          <a class="button" onclick="multi()">Multiple Trajectories</a>
+          <a class="button" onclick="toggleHelp()">Help</a>
+        </div>
+        <div class="time_input">
+          <input type="range" min="0" max="9.425" value="0" step=".001" class="slider" name="t_slider" id="t_slider" oninput="graph(this.value, 1.0)">
+        </div>  
+        <div class="timegraph" id="timegraph"></div>
       </div>
-      <div class="time_input">
-        <input type="range" min="0" max="9.425" value="0" step=".001" class="slider" name="t_slider" id="t_slider" oninput="graph(this.value, 1.0)">
-      </div>  
-      <div class="timegraph" id="timegraph"></div>
-    </div>
-    <div id="statistics" class="statistics">
-      <p align="center">Data:</p>
-      <p id="time"></p>Phase: <input type="text" class="numbersonly" name="t_text" id="t_text" maxlength="100" value="0" oninput="graph(this.value, 1.0)">
-      <p id="ionization_time"></p>
-      <p id="recombination"></p>
-      <p id="recombination_time"></p>
-      <p id="trajectory"></p>
-      <p id="warning"></p>
-    </div>
-    <div id="legendContainer" class="legend">
-      <p align="center">Legend:</p>
-    </div>
-  </div> <!-- top menu -->
-  <div class="graphs">
-    <div class="plot-container" id="field-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('field-info')"></i>
-      <div class="info-window" id="field-info">
-        <p>This plot shows the magnitude of the incident laser electric field intensity (E) as a function of phase (&#x3C9;t). </p>
-        <p>Though the field intensity of the incident laser pulse is spatially non-homogeneous, in this model it is assumed so, relative to the size of the electron.</p>
-        <p>Furthermore, it is assumed that the pulse envelope of the laser pulses are much larger than the dynamics of the electron and so, the waveform of the laser pulse looks like a simple AC sinusoid.</p>
+      <div id="statistics" class="statistics">
+        <p align="center">Data:</p>
+        <p id="time">Phase: <input type="text" class="numbersonly" name="t_text" id="t_text" maxlength="100" value="0" oninput="graph(this.value, 1.0)"></p>
+        <p id="ionization_time"></p>
+        <p id="recombination"></p>
+        <p id="recombination_time"></p>
+        <p id="trajectory"></p>
+        <p id="warning"></p>
       </div>
-      <div class="field" id="field"></div>
-    </div>
-    <div class="plot-container" id="potential-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('potential-info')"></i>
-      <div class="info-window" id="potential-info">
-        <p>This plot shows the net potential energy (U) of the electron as a function of distance (x). </p>
-        <p>The blue curve is the modified Coulomb potential energy of the valence electron in an atom, after being driven by an external laser field. The time-dependent laser field tilts the Coulomb potential back and forth, causing the electron to tunnel ionize.</p>
-        <p>The dotted line is the asymptote describing the potential energy of the electron due to the external laser field alone.</p>
-        <p>In this model, it is assumed that when the electron undergoes tunnel ionization, it jumps discretely from (0, -U<sub>I</sub>) to (0, 0) and vice-versa during recombination. Here, U<sub>I</sub> is the ionization energy for a given element.</p>
+      <div id="legendContainer" class="legend">
+        <p align="center">Legend:</p>
       </div>
-      <div class="potential" id="potential"></div>
-    </div>
-    <div class="plot-container" id="energy-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('energy-info')"></i>
-      <div class="info-window" id="energy-info">
-        <p>This plot shows the effective kinetic energy (U<sub>K</sub>/U<sub>P</sub>) of the electron at recombination as a function of (left) ionization phase (&#x3B8;<sub>i</sub>) and (right) recombination phase (&#x3B8;<sub>r</sub>). U<sub>P</sub> is the ponderomotive energy of the electron (average wiggle energy of the electron).</p>
-        <p>The curves peak at approximately 3.17, i.e., U<sub>K,max</sub> &asymp; 3.17 U<sub>P</sub>, for &#x3B8;<sub>i</sub> = &#x3C0;/10 rad and correspondingly, &#x3B8;<sub>r</sub> &asymp; 4.39 rad. This prediction was one of the successes of this simple model.</p>
-        <p>This plot also illustrates the "long" and "short" trajectories of the electron depending on &#x3B8;<sub>i</sub>. Trajectories for &#x3B8;<sub>i</sub> < &#x3C0;/10 rad are long and those for  &#x3B8;<sub>i</sub> > &#x3C0;/10 rad are short.</p>
+    </div> <!-- top menu -->
+    <div class="graphs">
+      <div class="plot-container" id="field-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('field-info')"></i>
+        <div class="info-window" id="field-info">
+          <p>This plot shows the magnitude of the incident laser electric field intensity (E) as a function of phase (&#x3C9;t). </p>
+          <p>Though the field intensity of the incident laser pulse is spatially non-homogeneous, in this model it is assumed so, relative to the size of the electron.</p>
+          <p>Furthermore, it is assumed that the pulse envelope of the laser pulses are much larger than the dynamics of the electron and so, the waveform of the laser pulse looks like a simple AC sinusoid.</p>
+        </div>
+        <div class="field" id="field"></div>
       </div>
-      <div class="energy" id="energy"></div>
-    </div>
-    <div class="plot-container" id="displacement-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('displacement-info')"></i>
-      <div class="info-window" id="displacement-info">
-        <p>This plot shows the effective displacement (x) of the electron as a function of phase (&#x3C9;t).</p>
-        <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its position immediately after is at x = 0. Hence, the displacement curves always start from the x-axis.</p>
-        <p>It is observed that the trajectory of the electron with the maximum distance traveled is the one with &#x3B8;<sub>i</sub> = n&#x3C0;, where, n = 0, 1, 2, ..., when its trajectories form closed orbits.</p>
+      <div class="plot-container" id="potential-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('potential-info')"></i>
+        <div class="info-window" id="potential-info">
+          <p>This plot shows the net potential energy (U) of the electron as a function of distance (x). </p>
+          <p>The blue curve is the modified Coulomb potential energy of the valence electron in an atom, after being driven by an external laser field. The time-dependent laser field tilts the Coulomb potential back and forth, causing the electron to tunnel ionize.</p>
+          <p>The dotted line is the asymptote describing the potential energy of the electron due to the external laser field alone.</p>
+          <p>In this model, it is assumed that when the electron undergoes tunnel ionization, it jumps discretely from (0, -U<sub>I</sub>) to (0, 0) and vice-versa during recombination. Here, U<sub>I</sub> is the ionization energy for a given element.</p>
+        </div>
+        <div class="potential" id="potential"></div>
       </div>
-      <div class="displacement" id="displacement"></div>
-    </div>
-    <div class="plot-container" id="phase1-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase1-info')"></i>
-      <div class="info-window" id="phase1-info">
-        <p>This plot shows a phase potrait (effective velocity (v) vs effective displacement (x)) describing the trajectory of the electron.</p>
-        <p>It is observed that this system is not conservative, i.e., the trajectories only take the form of orbits for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., and for the other values of &#x3B8;<sub>i</sub>, the trajectories are not closed.</p>
-        <p>Thus, the electron is accelerated to high velocities by the time-dependent laser potential at recombination. The maximum velocity that the electron can attain at recombination is when &#x3B8;<sub>i</sub> = &#x3C0;/10 rad.</p>
+      <div class="plot-container" id="energy-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('energy-info')"></i>
+        <div class="info-window" id="energy-info">
+          <p>This plot shows the effective kinetic energy (U<sub>K</sub>/U<sub>P</sub>) of the electron at recombination as a function of (left) ionization phase (&#x3B8;<sub>i</sub>) and (right) recombination phase (&#x3B8;<sub>r</sub>). U<sub>P</sub> is the ponderomotive energy of the electron (average wiggle energy of the electron).</p>
+          <p>The curves peak at approximately 3.17, i.e., U<sub>K,max</sub> &asymp; 3.17 U<sub>P</sub>, for &#x3B8;<sub>i</sub> = &#x3C0;/10 rad and correspondingly, &#x3B8;<sub>r</sub> &asymp; 4.39 rad. This prediction was one of the successes of this simple model.</p>
+          <p>This plot also illustrates the "long" and "short" trajectories of the electron depending on &#x3B8;<sub>i</sub>. Trajectories for &#x3B8;<sub>i</sub> < &#x3C0;/10 rad are long and those for  &#x3B8;<sub>i</sub> > &#x3C0;/10 rad are short.</p>
+        </div>
+        <div class="energy" id="energy"></div>
       </div>
-      <div class="phase1" id="phase1"></div>
-    </div>
-    <div class="plot-container" id="recom-ion-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('recom-ion-info')"></i>
-      <div class="info-window" id="recom-ion-info">
-        <p>This plot shows the recombination phase (&#x3B8;<sub>r</sub>) as a function of ionization phase (&#x3B8;<sub>i</sub>).</p>
-        <p>It is observed that the curve is a decreasing function for 0 &le; &#x3B8;<sub>i</sub> &le; &#x3C0;/2, with a maxima at (0, 2&#x3C0;) and minima at (&#x3C0;/2, &#x3C0;/2).</p>
+      <div class="plot-container" id="displacement-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('displacement-info')"></i>
+        <div class="info-window" id="displacement-info">
+          <p>This plot shows the effective displacement (x) of the electron as a function of phase (&#x3C9;t).</p>
+          <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its position immediately after is at x = 0. Hence, the displacement curves always start from the x-axis.</p>
+          <p>It is observed that the trajectory of the electron with the maximum distance traveled is the one with &#x3B8;<sub>i</sub> = n&#x3C0;, where, n = 0, 1, 2, ..., when its trajectories form closed orbits.</p>
+        </div>
+        <div class="displacement" id="displacement"></div>
       </div>
-      <div class="recom-ion" id="recom-ion"></div>
-    </div>
-    <div class="plot-container" id="velocity-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('velocity-info')"></i>
-      <div class="info-window" id="velocity-info">
-        <p>This plot shows the effective velocity (v) of the electron as a function of phase (&#x3C9;t). </p>
-        <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its velocity immediately zero, meaning, the electron is at rest. Hence, the velocity curves always start from the x-axis.</p>
-        <p>It is observed that the trajectory of the electron with the maximum velocity at recombination is the one with &#x3B8;<sub>i</sub> = (n + 0.1)&#x3C0;, where, n = 0, 1, 2, ... .
+      <div class="plot-container" id="phase1-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase1-info')"></i>
+        <div class="info-window" id="phase1-info">
+          <p>This plot shows a phase potrait (effective velocity (v) vs effective displacement (x)) describing the trajectory of the electron.</p>
+          <p>It is observed that this system is not conservative, i.e., the trajectories only take the form of orbits for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., and for the other values of &#x3B8;<sub>i</sub>, the trajectories are not closed.</p>
+          <p>Thus, the electron is accelerated to high velocities by the time-dependent laser potential at recombination. The maximum velocity that the electron can attain at recombination is when &#x3B8;<sub>i</sub> = &#x3C0;/10 rad.</p>
+        </div>
+        <div class="phase1" id="phase1"></div>
       </div>
-      <div class="velocity" id="velocity"></div>
-    </div>
-    <div class="plot-container" id="phase2-container">
-      <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase2-info')"></i>
-      <div class="info-window" id="phase2-info">
-        <p>This plot shows a phase potrait (effective kinetic energy (U<sub>K</sub>/U<sub>P</sub>) vs effective displacement (x)) describing the trajectory of the electron.</p>
-        <p>It is observed that in orbital trajectories obtained for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., the kinetic energy at recombination is zero. For other values of &#x3B8;<sub>i</sub>, the kinetic energy at recombination is non-zero.</p>
-        <p>Thus, this system is not conservative and the electron gains kinetic energy from the time-dependent laser potential. The maximum kinetic energy that the electron can attain at recombination is when &#x3B8;<sub>i</sub> = &#x3C0;/10 rad. This energy is emitted as radiation at recombination and contains high-harmonics of the incident laser radiation.</p>
+      <div class="plot-container" id="recom-ion-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('recom-ion-info')"></i>
+        <div class="info-window" id="recom-ion-info">
+          <p>This plot shows the recombination phase (&#x3B8;<sub>r</sub>) as a function of ionization phase (&#x3B8;<sub>i</sub>).</p>
+          <p>It is observed that the curve is a decreasing function for 0 &le; &#x3B8;<sub>i</sub> &le; &#x3C0;/2, with a maxima at (0, 2&#x3C0;) and minima at (&#x3C0;/2, &#x3C0;/2).</p>
+        </div>
+        <div class="recom-ion" id="recom-ion"></div>
       </div>
-      <div class="phase2" id="phase2"></div>
+      <div class="plot-container" id="velocity-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('velocity-info')"></i>
+        <div class="info-window" id="velocity-info">
+          <p>This plot shows the effective velocity (v) of the electron as a function of phase (&#x3C9;t). </p>
+          <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its velocity immediately zero, meaning, the electron is at rest. Hence, the velocity curves always start from the x-axis.</p>
+          <p>It is observed that the trajectory of the electron with the maximum velocity at recombination is the one with &#x3B8;<sub>i</sub> = (n + 0.1)&#x3C0;, where, n = 0, 1, 2, ... .
+        </div>
+        <div class="velocity" id="velocity"></div>
+      </div>
+      <div class="plot-container" id="phase2-container">
+        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase2-info')"></i>
+        <div class="info-window" id="phase2-info">
+          <p>This plot shows a phase potrait (effective kinetic energy (U<sub>K</sub>/U<sub>P</sub>) vs effective displacement (x)) describing the trajectory of the electron.</p>
+          <p>It is observed that in orbital trajectories obtained for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., the kinetic energy at recombination is zero. For other values of &#x3B8;<sub>i</sub>, the kinetic energy at recombination is non-zero.</p>
+          <p>Thus, this system is not conservative and the electron gains kinetic energy from the time-dependent laser potential. The maximum kinetic energy that the electron can attain at recombination is when &#x3B8;<sub>i</sub> = &#x3C0;/10 rad. This energy is emitted as radiation at recombination and contains high-harmonics of the incident laser radiation.</p>
+        </div>
+        <div class="phase2" id="phase2"></div>
+      </div>
     </div>
+
   </div>
 
   <script>

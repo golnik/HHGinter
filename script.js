@@ -47,12 +47,12 @@ function handleLegendClick(event) {
         plots.forEach(plotId => {
             const plotElement = document.getElementById(plotId);
             if (plotElement && plotElement.data) {
-                console.log(plotElement)
-                console.log(plotElement.data)
+                //console.log(plotElement)
+                //console.log(plotElement.data)
                 const traceIndices = plotElement.data.map((trace, i) => i);
-                console.log(traceIndices)
+                //console.log(traceIndices)
                 const visibilities = traceIndices.map(() => true);
-                console.log(visibilities)
+                //console.log(visibilities)
                 Plotly.restyle(plotElement, { visible: true, opacity: 1 }, traceIndices);
             }
         });
@@ -77,12 +77,16 @@ function handleLegendClick(event) {
                     if ((trace.name && traceLabelRegex.test(trace.name)) || (!trace.name.includes('Trace'))) {
                         currentVisibility = trace.visible;
                         Plotly.restyle(plotElement, { visible: true, opacity: 1 }, [i]);
-                    } else if ((trace.name !== "Electron" && trace.name !== "Time") || (!trace.name.includes('Trace'))) {
+                    } else if ((trace.name !== "Electron" && trace.name !== "Time")) {
                         // Make sure electron and time bar are not hidden
-                        console.log(plotId)
-                        console.log(trace.name)
-                        console.log(traceLabelRegex)
+                        //console.log(plotId)
+                        //console.log(trace.name)
+                        //console.log(traceLabelRegex)
                         Plotly.restyle(plotElement, { visible: true, opacity: 0.4 }, [i]);
+                        
+                        if (trace.name.includes('Energy') || (trace.name.includes('Recombination'))) {
+                          Plotly.restyle(plotElement, { visible: true, opacity: 0.2 }, [i]);
+                        }
                     }
                 });
             }
@@ -156,8 +160,8 @@ function graph(t, w) {
   }
 
   // equations
-  let exp = "-1 * Math.abs((.5/x)) +  (-5) * x * Math.cos(w * t)";
-  let laser_pot = "(-5) * x * Math.cos(w * t)";
+  let exp = "-1 * Math.abs((.5/x)) +  (-10) * x * Math.cos(w * t)";
+  let laser_pot = "(-10) * x * Math.cos(w * t)";
   let laser = "Math.cos(w * x)";
 
   // get ionization and recombination time
@@ -222,10 +226,10 @@ function graph(t, w) {
     disp = displacement(t, w)
     position = disp;
     xElectron = [position];
-    yElectron = [(-5) * position * Math.cos(w * t)];
+    yElectron = [(-10) * position * Math.cos(w * t)];
   }
 
-  const timebar = { x: tValues, y: xValues, mode: "lines", name: "Time" };
+  const timebar = { x: tValues, y: xValues, mode: "lines", line: {color: "rgb(0,0,0)"}, name: "Time" };
 
   // Display using Plotly
   var PotentialData = [
@@ -399,7 +403,7 @@ function graph(t, w) {
 
     var emptyLayoutEnergy = {
       title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
-      xaxis: { title: 'Phase (θ)', range: [0, 2 * Math.PI] },
+      xaxis: { title: 'Phase (θ) mod π', range: [0, 2 * Math.PI] },
       yaxis: { title: 'Recombination KE', range: [0, 3.5] },
       showlegend: false,
       font: global_font,
@@ -408,7 +412,7 @@ function graph(t, w) {
 
     var emptyLayoutRecombination = {
       title: 'Recombination Phase as a Function of Ionization Phase',
-      xaxis: { title: 'Ionization Phase (θ\u1D62)', range: [0, 0.5 * Math.PI] },
+      xaxis: { title: 'Ionization Phase (θ\u1D62) mod π', range: [0, 0.5 * Math.PI] },
       yaxis: { title: 'Recombination Phase (θ\u1D63)', range: [0.5 * Math.PI, 2 * Math.PI] },
       showlegend: false,
       font: global_font,
@@ -552,6 +556,7 @@ function ionize(t0, w) {
 
   var theta_0 = t0 * w;
   var rem = theta_0 % Math.PI;
+  var quo = theta_0 / Math.PI;
 
   //console.log(rem)
 
@@ -587,6 +592,7 @@ function ionize(t0, w) {
 
   if (theta_0 > 2 * Math.PI) {
     warning.textContent = "Warning: Please only ionize between 0 and 2\u03C0!";
+    return;
   } else {
     if (rem >= Math.PI / 2) {
       // no recombination
@@ -607,7 +613,12 @@ function ionize(t0, w) {
       } else {
         trajectory.textContent = "Trajectory: Short";
       }
-      timeline(t0, (theta_r_dict[theta_i_array[closest]] / w));
+      if (quo < 1.0) {
+        timeline(t0, (theta_r_dict[theta_i_array[closest]] / w));
+      }
+      else{
+        timeline(t0, Math.PI + (theta_r_dict[theta_i_array[closest]] / w));
+      }
     }
     if (t0 == null) {
       ionization_time.textContent = "Ionization Phase: N/A";
@@ -625,6 +636,7 @@ function ionize(t0, w) {
     }
   }
 }
+
 
 function new_trace(t, w){
   //console.log(traceCounter)
@@ -677,23 +689,23 @@ function graph_supp(theta_r_dict, energy_dict) {
   const energyDataThetaI = {
     x: theta_i_keys,
     y: energy_values,
-    mode: 'lines',
+    mode: 'lines', line: {color: "rgb(0,0,255)"},
     type: 'scatter',
-    name: `Kinetic Energy vs Ionization Phase`
+    name: `Kinetic Energy vs Ionization Phase`,
   };
  
   const energyDataThetaR = {
     x: theta_r_values,
     y: energy_values,
-    mode: 'lines',
+    mode: 'lines', line: {color: "rgb(255,0,0)"},
     type: 'scatter',
-    name: `Kinetic Energy vs Recombination Phase`
+    name: `Kinetic Energy vs Recombination Phase`,
   };
 
   // Create the layout for the kinetic energy plot
   const energyLayout = {
     title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
-    xaxis: { title: 'Phase (θ)', range: [0, 2 * Math.PI] },
+    xaxis: { title: 'Phase (θ) mod π', range: [0, 2 * Math.PI] },
     yaxis: { title: 'Recombination KE', range: [0, 3.5] },
     showlegend: false,
     font: global_font,
@@ -709,7 +721,7 @@ function graph_supp(theta_r_dict, energy_dict) {
     {
       x: theta_i_keys,
       y: theta_r_values,
-      mode: 'lines',
+      mode: 'lines', line: {color: "rgb(0,0,0)"},
       type: 'scatter',
       name: `Recombination Phase vs Ionization Phase`
     }
@@ -717,7 +729,7 @@ function graph_supp(theta_r_dict, energy_dict) {
 
   const recombinationLayout = {
     title: 'Recombination Phase as a Function of Ionization Phase',
-    xaxis: { title: 'Ionization Phase (θ\u1D62)', range: [0, 0.5 * Math.PI]},
+    xaxis: { title: 'Ionization Phase (θ\u1D62) mod π', range: [0, 0.5 * Math.PI] },
     yaxis: { title: 'Recombination Phase (θ\u1D63)', range: [0.5 * Math.PI, 2 * Math.PI] },
     showlegend: false,
     font: global_font,
@@ -730,23 +742,33 @@ function graph_supp(theta_r_dict, energy_dict) {
 
   const w = 1.0;
 
-  const ionizationTime = ionizationTimes[ionizationTimes.length - 1]; 
+  var ionizationTime = ionizationTimes[ionizationTimes.length - 1]; 
   const theta_i_array = linspace(0, Math.PI / 2, 1000);
   smallestDiff = Math.abs((w * ionizationTime) - theta_i_array[0]);
   closest = 0;
   
   for (i=1; i < theta_i_array.length; i++){
-    currentDiff = Math.abs((w * ionizationTime) - theta_i_array[i]);
-    if (currentDiff < smallestDiff) {
-      smallestDiff = currentDiff;
-      closest = i;
+    if (ionizationTime <= Math.PI) {
+      currentDiff = Math.abs((w * ionizationTime) - theta_i_array[i]);
+      if (currentDiff < smallestDiff) {
+        smallestDiff = currentDiff;
+        closest = i;
+      }
+    }
+    else {
+      ionizationTime = ionizationTime - Math.PI;
+      currentDiff = Math.abs((w * ionizationTime) - theta_i_array[i]);
+      if (currentDiff < smallestDiff) {
+        smallestDiff = currentDiff;
+        closest = i;
+      }
     }
   }
 
   const traceColor = getColor(traceCounter); // Get the latest color
 
   const verticalBarEnergyIon = {
-    x: [ionizationTime, ionizationTime],
+    x: [theta_i_array[closest], theta_i_array[closest]],
     y: [0, energy_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
@@ -762,7 +784,7 @@ function graph_supp(theta_r_dict, energy_dict) {
   };
 
   const horizontalBarEnergy = {
-    x: [ionizationTime, theta_r_dict[theta_i_array[closest]]],
+    x: [theta_i_array[closest], theta_r_dict[theta_i_array[closest]]],
     y: [energy_dict[theta_i_array[closest]], energy_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
@@ -772,7 +794,7 @@ function graph_supp(theta_r_dict, energy_dict) {
 
 
   const verticalBarRecombination = {
-    x: [ionizationTime, ionizationTime],
+    x: [theta_i_array[closest], theta_i_array[closest]],
     y: [0.5 * Math.PI, theta_r_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
@@ -780,7 +802,7 @@ function graph_supp(theta_r_dict, energy_dict) {
   };
 
   const horizontalBarRecombination = {
-    x: [0, ionizationTime],
+    x: [0, theta_i_array[closest]],
     y: [theta_r_dict[theta_i_array[closest]], theta_r_dict[theta_i_array[closest]]],
     mode: 'lines',
     line: { color: traceColor, width: 2 },
@@ -815,6 +837,7 @@ function cleargraphs() {
   document.getElementById("recombination").textContent = "";
   document.getElementById("recombination_time").textContent = "";
   document.getElementById("trajectory").textContent = "";
+  document.getElementById("warning").textContent = "";
 
   const w = 1.0;
   ionize(null, w);
@@ -823,12 +846,26 @@ function cleargraphs() {
 };
 
 function multi() {
-  cleargraphs();
+    // Add loading class to body
+    document.body.classList.add('loading');
 
-  var w = 1.0;
+    cleargraphs();
 
-  for (let x = 0; x <= 2 * (Math.PI) / w; x += 0.1 * Math.PI) {
-    ionize(x, w);
-    //console.log(traceCounter);
-  }
+    var w = 1.0;
+    var x = 0;
+    var step = 0.1 * Math.PI;
+
+    function runLoop() {
+        if (x <= 2 * (Math.PI) / w) {
+            ionize(x, w);
+            x += step;
+            setTimeout(runLoop, 0); // Schedule the next iteration
+        } else {
+            // Remove the loading class from body after loop completes
+            document.body.classList.remove('loading');
+        }
+    }
+
+    // Start the loop
+    runLoop();
 }
