@@ -101,6 +101,11 @@ html, body {
   margin-right: 10px;
 }
 
+.title{
+  text-align:center;
+  font-size: 14px !important;
+}
+
 .graphs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -140,11 +145,12 @@ html, body {
 }
 
 .info-icon {
-  position: absolute;
+  /*position: absolute;
   top: 10%;
-  left: 97%;
+  left: 97%;*/
 
-  font-size: 20px; /* Increased font size for super large icons */
+  display:inline;
+  white-space: nowrap;  
   cursor: pointer;
   opacity: 0.5;
   transition: opacity 0.3s;

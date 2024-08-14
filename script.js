@@ -8,8 +8,8 @@ var skipAddingTraces = false;  // Flag to control whether to skip adding traces
 var global_margin = {
   l: 55,
   r: 15,
-  b: 45,
-  t: 45,
+  b: 55,
+  t: 55,
   pad: 10
 }
 
@@ -244,7 +244,7 @@ function graph(t, w) {
   ];
 
   var Potentiallayout = {
-    title: "Potential Energy vs Distance",
+    //title: "Potential Energy vs Distance",
     xaxis: {
       title: 'Distance',
       range: [-2.5, 2.5],
@@ -259,7 +259,7 @@ function graph(t, w) {
   };
 
   var Laserlayout = {
-    title: "Laser Electric Field vs Phase",
+    //title: "Laser Electric Field vs Phase",
     xaxis: {
       title: 'Phase',
       range: [0, 3 * Math.PI]
@@ -324,7 +324,7 @@ function graph(t, w) {
   ];
 
   var Displayout = {
-    title: "Displacement vs Phase",
+    //title: "Displacement vs Phase",
     xaxis: {
       title: 'Phase',
       range: [0, 3 * Math.PI]
@@ -339,7 +339,7 @@ function graph(t, w) {
   }
 
   var Vellayout = {
-    title: "Velocity vs Phase",
+    //title: "Velocity vs Phase",
     xaxis: {
       title: 'Phase',
       range: [0, 3 * Math.PI]
@@ -354,7 +354,7 @@ function graph(t, w) {
   }
 
   var Phase1layout = {
-    title: "Phase Portrait (Velocity vs Displacement)",
+    //title: "Phase Portrait (Velocity vs Displacement)",
     xaxis: {
       title: 'Displacement',
       range: [-2.5, 2.5]
@@ -369,7 +369,7 @@ function graph(t, w) {
   };
 
   var Phase2layout = {
-    title: "Phase Portrait (Kinetic Energy vs Displacement)",
+    //title: "Phase Portrait (Kinetic Energy vs Displacement)",
     xaxis: {
       title: 'Displacement',
       range: [-2.5, 2.5]
@@ -402,7 +402,7 @@ function graph(t, w) {
     }];
 
     var emptyLayoutEnergy = {
-      title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
+      //title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
       xaxis: { title: 'Phase (θ) mod π', range: [0, 2 * Math.PI] },
       yaxis: { title: 'Recombination KE', range: [0, 3.5] },
       showlegend: false,
@@ -411,7 +411,7 @@ function graph(t, w) {
     };
 
     var emptyLayoutRecombination = {
-      title: 'Recombination Phase as a Function of Ionization Phase',
+      //title: 'Recombination Phase as a Function of Ionization Phase',
       xaxis: { title: 'Ionization Phase (θ\u1D62) mod π', range: [0, 0.5 * Math.PI] },
       yaxis: { title: 'Recombination Phase (θ\u1D63)', range: [0.5 * Math.PI, 2 * Math.PI] },
       showlegend: false,
@@ -704,7 +704,7 @@ function graph_supp(theta_r_dict, energy_dict) {
 
   // Create the layout for the kinetic energy plot
   const energyLayout = {
-    title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
+    //title: 'Kinetic Energy at Recombination vs (Left) Ionization Phase and (Right) Recombination Phase',
     xaxis: { title: 'Phase (θ) mod π', range: [0, 2 * Math.PI] },
     yaxis: { title: 'Recombination KE', range: [0, 3.5] },
     showlegend: false,
@@ -728,7 +728,7 @@ function graph_supp(theta_r_dict, energy_dict) {
   ];
 
   const recombinationLayout = {
-    title: 'Recombination Phase as a Function of Ionization Phase',
+    //title: 'Recombination Phase as a Function of Ionization Phase',
     xaxis: { title: 'Ionization Phase (θ\u1D62) mod π', range: [0, 0.5 * Math.PI] },
     yaxis: { title: 'Recombination Phase (θ\u1D63)', range: [0.5 * Math.PI, 2 * Math.PI] },
     showlegend: false,

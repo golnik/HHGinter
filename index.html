@@ -41,7 +41,10 @@
     </div> <!-- top menu -->
     <div class="graphs">
       <div class="plot-container" id="field-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('field-info')"></i>
+        <div class="title">
+          Laser Electric Field vs Phase
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('field-info')"></i>
+        </div>
         <div class="info-window" id="field-info">
           <p>This plot shows the magnitude of the incident laser electric field intensity (E) as a function of phase (&#x3C9;t). </p>
           <p>Though the field intensity of the incident laser pulse is spatially non-homogeneous, in this model it is assumed so, relative to the size of the electron.</p>
@@ -50,7 +53,10 @@
         <div class="field" id="field"></div>
       </div>
       <div class="plot-container" id="potential-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('potential-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('potential-info')"></i>
+        </div>
         <div class="info-window" id="potential-info">
           <p>This plot shows the net potential energy (U) of the electron as a function of distance (x). </p>
           <p>The blue curve is the modified Coulomb potential energy of the valence electron in an atom, after being driven by an external laser field. The time-dependent laser field tilts the Coulomb potential back and forth, causing the electron to tunnel ionize.</p>
@@ -60,7 +66,10 @@
         <div class="potential" id="potential"></div>
       </div>
       <div class="plot-container" id="energy-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('energy-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('energy-info')"></i>
+        </div>
         <div class="info-window" id="energy-info">
           <p>This plot shows the effective kinetic energy (U<sub>K</sub>/U<sub>P</sub>) of the electron at recombination as a function of (left) ionization phase (&#x3B8;<sub>i</sub>) and (right) recombination phase (&#x3B8;<sub>r</sub>). U<sub>P</sub> is the ponderomotive energy of the electron (average wiggle energy of the electron).</p>
           <p>The curves peak at approximately 3.17, i.e., U<sub>K,max</sub> &asymp; 3.17 U<sub>P</sub>, for &#x3B8;<sub>i</sub> = &#x3C0;/10 rad and correspondingly, &#x3B8;<sub>r</sub> &asymp; 4.39 rad. This prediction was one of the successes of this simple model.</p>
@@ -69,7 +78,10 @@
         <div class="energy" id="energy"></div>
       </div>
       <div class="plot-container" id="displacement-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('displacement-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('displacement-info')"></i>
+        </div>
         <div class="info-window" id="displacement-info">
           <p>This plot shows the effective displacement (x) of the electron as a function of phase (&#x3C9;t).</p>
           <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its position immediately after is at x = 0. Hence, the displacement curves always start from the x-axis.</p>
@@ -78,7 +90,10 @@
         <div class="displacement" id="displacement"></div>
       </div>
       <div class="plot-container" id="phase1-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase1-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase1-info')"></i>
+        </div>
         <div class="info-window" id="phase1-info">
           <p>This plot shows a phase potrait (effective velocity (v) vs effective displacement (x)) describing the trajectory of the electron.</p>
           <p>It is observed that this system is not conservative, i.e., the trajectories only take the form of orbits for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., and for the other values of &#x3B8;<sub>i</sub>, the trajectories are not closed.</p>
@@ -87,7 +102,10 @@
         <div class="phase1" id="phase1"></div>
       </div>
       <div class="plot-container" id="recom-ion-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('recom-ion-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('recom-ion-info')"></i>
+        </div>
         <div class="info-window" id="recom-ion-info">
           <p>This plot shows the recombination phase (&#x3B8;<sub>r</sub>) as a function of ionization phase (&#x3B8;<sub>i</sub>).</p>
           <p>It is observed that the curve is a decreasing function for 0 &le; &#x3B8;<sub>i</sub> &le; &#x3C0;/2, with a maxima at (0, 2&#x3C0;) and minima at (&#x3C0;/2, &#x3C0;/2).</p>
@@ -95,7 +113,10 @@
         <div class="recom-ion" id="recom-ion"></div>
       </div>
       <div class="plot-container" id="velocity-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('velocity-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('velocity-info')"></i>
+        </div>
         <div class="info-window" id="velocity-info">
           <p>This plot shows the effective velocity (v) of the electron as a function of phase (&#x3C9;t). </p>
           <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its velocity immediately zero, meaning, the electron is at rest. Hence, the velocity curves always start from the x-axis.</p>
@@ -104,7 +125,10 @@
         <div class="velocity" id="velocity"></div>
       </div>
       <div class="plot-container" id="phase2-container">
-        <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase2-info')"></i>
+        <div class="title">
+          Potential Energy vs Distance
+          <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase2-info')"></i>
+        </div>
         <div class="info-window" id="phase2-info">
           <p>This plot shows a phase potrait (effective kinetic energy (U<sub>K</sub>/U<sub>P</sub>) vs effective displacement (x)) describing the trajectory of the electron.</p>
           <p>It is observed that in orbital trajectories obtained for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., the kinetic energy at recombination is zero. For other values of &#x3B8;<sub>i</sub>, the kinetic energy at recombination is non-zero.</p>
