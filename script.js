@@ -852,7 +852,7 @@ function multi() {
     var step = 0.1 * Math.PI;
 
     function runLoop() {
-        if (x <= 2 * (Math.PI) / w) {
+        if (x <= (Math.PI) / w) {
             ionize(x, w);
             x += step;
             setTimeout(runLoop, 0); // Schedule the next iteration

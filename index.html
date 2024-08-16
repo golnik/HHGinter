@@ -49,9 +49,9 @@
             <i class="fas fa-info-circle info-icon" onclick="toggleInfo('field-info')"></i>
           </div>
           <div class="info-window" id="field-info">
-            <p>This plot shows the magnitude of the incident laser electric field intensity (E) as a function of phase (&#x3C9;t). </p>
-            <p>Though the field intensity of the incident laser pulse is spatially non-homogeneous, in this model it is assumed so, relative to the size of the electron.</p>
-            <p>Furthermore, it is assumed that the pulse envelope of the laser pulses are much larger than the dynamics of the electron and so, the waveform of the laser pulse looks like a simple AC sinusoid.</p>
+            <p>This plot shows the magnitude of the incident laser electric field (E) as a function of phase (&#x3C9;t). </p>
+            <p>Though the field amplitude of the incident laser pulse is spatially non-homogeneous, in this model it is assumed so, relative to the size of the electron (dipole approximation).</p>
+            <p>Furthermore, it is assumed that the envelope of the driver laser pulse is much longer than the simulated electron dynamics and thus the waveform of the laser pulse looks like a simple AC sinusoidal wave.</p>
           </div>
         </div>
       </div>
@@ -63,9 +63,9 @@
           </div>
           <div class="info-window" id="potential-info">
             <p>This plot shows the net potential energy (U) of the electron as a function of distance (x). </p>
-            <p>The blue curve is the modified Coulomb potential energy of the valence electron in an atom, after being driven by an external laser field. The time-dependent laser field tilts the Coulomb potential back and forth, causing the electron to tunnel ionize.</p>
+            <p>The blue curve is the field-alternated Coulomb potential energy that the valence electron in an atom feels. The time-dependent field tilts the Coulomb potential back and forth, causing the electron to tunnel ionize.</p>
             <p>The dotted line is the asymptote describing the potential energy of the electron due to the external laser field alone.</p>
-            <p>In this model, it is assumed that when the electron undergoes tunnel ionization, it jumps discretely from (0, -U<sub>I</sub>) to (0, 0) and vice-versa during recombination. Here, U<sub>I</sub> is the ionization energy for a given element.</p>
+            <p>In this model, it is assumed that when the electron undergoes tunnel ionization, it jumps discretely from (0, -U<sub>I</sub>) to (0, 0) and vice-versa during recombination. Here, U<sub>I</sub> is the ionization energy for a given atom.</p>
           </div>
         </div>
       </div>
@@ -90,8 +90,8 @@
           </div>
           <div class="info-window" id="displacement-info">
             <p>This plot shows the effective displacement (x) of the electron as a function of phase (&#x3C9;t).</p>
-            <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its position immediately after is at x = 0. Hence, the displacement curves always start from the x-axis.</p>
-            <p>It is observed that the trajectory of the electron with the maximum distance traveled is the one with &#x3B8;<sub>i</sub> = n&#x3C0;, where, n = 0, 1, 2, ..., when its trajectories form closed orbits.</p>
+            <p>In this model, it is assumed that the initial position of the electron immediately after the ionization event remains unchanged. Hence, the electron trajectories always start from zero displacement irrespective of the ionization phase.</p>
+            <p>It is observed that the trajectory of the electron with the maximum distance traveled is the one with &#x3B8;<sub>i</sub> = n&#x3C0;, where, n = 0, 1, 2, ... These trajectories form closed orbits.</p>
           </div>
         </div>
       </div>
@@ -102,9 +102,8 @@
             <i class="fas fa-info-circle info-icon" onclick="toggleInfo('phase1-info')"></i>
           </div>
           <div class="info-window" id="phase1-info">
-            <p>This plot shows a phase potrait (effective velocity (v) vs effective displacement (x)) describing the trajectory of the electron.</p>
-            <p>It is observed that this system is not conservative, i.e., the trajectories only take the form of orbits for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ..., and for the other values of &#x3B8;<sub>i</sub>, the trajectories are not closed.</p>
-            <p>Thus, the electron is accelerated to high velocities by the time-dependent laser potential at recombination. The maximum velocity that the electron can attain at recombination is when &#x3B8;<sub>i</sub> = &#x3C0;/10 rad.</p>
+            <p>This plot shows a phase portrait (effective velocity (v) vs effective displacement (x)) describing the trajectory of the ionized electron.</p>
+            <p>It is observed that this system is not conservative, i.e., the trajectories only take the form of orbits for &#x3B8;<sub>i</sub> = n&#x3C0;, where n = 0, 1, 2, ... For other values of &#x3B8;<sub>i</sub>, the trajectories are not closed. Thus, an electron, accelerated to high velocities by the time-dependent laser potential, releases its extra energy at recombination event emitting an HHG photon. The maximum velocity that the electron can attain at recombination is when &#x3B8;<sub>i</sub> = &#x3C0;/10 rad.</p>
           </div>        
         </div>
       </div>
@@ -116,7 +115,7 @@
           </div>
           <div class="info-window" id="recom-ion-info">
             <p>This plot shows the recombination phase (&#x3B8;<sub>r</sub>) as a function of ionization phase (&#x3B8;<sub>i</sub>).</p>
-            <p>It is observed that the curve is a decreasing function for 0 &le; &#x3B8;<sub>i</sub> &le; &#x3C0;/2, with a maxima at (0, 2&#x3C0;) and minima at (&#x3C0;/2, &#x3C0;/2).</p>
+            <p>It is observed that the curve is a decreasing function for 0 &le; &#x3B8;<sub>i</sub> &le; &#x3C0;/2, with a maximum at (0, 2&#x3C0;) and minimum at (&#x3C0;/2, &#x3C0;/2).</p>
           </div>   
         </div>
       </div>
@@ -128,8 +127,8 @@
           </div>
           <div class="info-window" id="velocity-info">
             <p>This plot shows the effective velocity (v) of the electron as a function of phase (&#x3C9;t). </p>
-            <p>In this model, it is assumed that when the electron undergoes tunnel ionization, its velocity immediately zero, meaning, the electron is at rest. Hence, the velocity curves always start from the x-axis.</p>
-            <p>It is observed that the trajectory of the electron with the maximum velocity at recombination is the one with &#x3B8;<sub>i</sub> = (n + 0.1)&#x3C0;, where, n = 0, 1, 2, ... .
+            <p>In this model, it is assumed that the initial velocity of the electron immediately after the ionization event is zero, meaning the electron is at rest. Hence, the electron trajectories always start with zero velocity irrespective of the ionization phase.</p>
+            <p>It is observed that the trajectory of the electron with the maximum velocity at recombination is the one with &#x3B8;<sub>i</sub> = (n + 0.1)&#x3C0;, where, n = 0, 1, 2, ...
           </div>
         </div>
       </div>
@@ -153,8 +152,11 @@
   <script>
     function toggleHelp() {
       var message =
-'Welcome to the High Harmonic Generation Learning Tool!\n\n\
-Version: 1.1\n\n\
+'Welcome to the High Harmonic Generation (HHG) Learning Tool!\n\n\
+This demonstration project implements a simple semiclassical three-step model of HHG. We refer the user interested in the details of the presented model to the following papers:\n\
+- Krause et al., PRL 68, 3535 (1992);\n\
+- Schafer et al., PRL 70, 1599 (1993);\n\
+- Corkum, PRL 71, 1994 (1993);\n\n\
 ***Please follow the instructions below***\n\n\
 1. Use the phase slider to manually set phase value or input it in the phase window.\n\
 2. Click the "Ionize" button to start the simulation for the ionization phase you set.\n\
